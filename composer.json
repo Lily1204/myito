@@ -1,0 +1,21 @@
+{
+	"name": "kevinmont/myito",
+	"description": "description",
+	"autoload": {
+        "psr-4": {
+			"Myito\\": "src/"
+		},
+		"classmap":[
+			"src/",
+			"config/generated-classes/",
+			"config/generated-conf/"
+		]
+    },
+	"require": {
+		"monolog/monolog": "1.0.*",
+		"mockery/mockery": "^1.1",
+		"propel/propel": "~2.0@dev"
+	},
+	"version": "1.0"
+}
+

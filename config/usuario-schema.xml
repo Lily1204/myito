@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="myito" defaultIdMethod="native">
+  <table name="usuarios" phpName="User">
+    <column name="correo" type="varchar" primaryKey="true" size="30"/>
+    <column name="nombre" type="varchar" size="30" required="true"/>
+    <column name="edad" type="smallint"  required="true"/>
+    <column name="sexo" type="char" size="15" required="true"/>
+  </table>
+
+  <table name="articulos" phpName="Article">
+    <column name="id_articulo" type="smallint" primaryKey="true" autoIncrement="true"/>
+    <column name="titulo" type="varchar" size="50" required="true"/>
+    <column name="descripcion" type="varchar" size="150" required="true"/>
+    <column name="links" type="varchar" size="70"/>
+    <column name="imagen" type="varchar" size="70" />
+    <column name="calificacion" type="smallint" required="false"/>
+    <column name="correo" type="varchar" size="30" required="true"/>
+    <column name="actividad_id" type="smallint" required="true"/>
+    <foreign-key foreignTable="usuarios" phpName="User" refPhpName="Article" onUpdate="cascade" onDelete="cascade">
+      <reference local="correo" foreign="correo"/>
+    </foreign-key>
+    <foreign-key foreignTable="actividades" phpName="Activity" refPhpName="Article" onUpdate="cascade" onDelete="cascade">
+      <reference local="actividad_id" foreign="actividad_id"/>
+    </foreign-key>
+  </table>
+
+  <table name="actividades" phpName="Activity">
+    <column name="actividad_id" type="smallint" primaryKey="true" autoIncrement="true"/>
+    <column name="nombre" type="varchar" required="true"/>
+    <column name="categoria_actividad_id" required="true" type="smallint"/>
+    <foreign-key foreignTable="categoria_actividad" phpName="ActivityCategory" refPhpName="Activity" onUpdate="cascade" onDelete="cascade">
+      <reference local="categoria_actividad_id" foreign="categoria_actividad_id"/>
+    </foreign-key>
+    <unique name="nombre_uni">
+      <unique-column name="nombre" size="30"/>
+    </unique>
+  </table>
+
+  <table name="categoria_actividad" phpName="ActivityCategory">
+    <column name="categoria_actividad_id" type="smallint" primaryKey="true" autoIncrement="true"/>
+    <column name="nombre_actividad" type="varchar" required="true"/>
+    <unique name="nombre_actividad_uni">
+      <unique-column name="nombre_actividad" size="30"/>
+    </unique>
+  </table>
+
+  <table name="usuario_categoria_actividad" phpName="UserActivityCategory">
+    <column name="correo" type="varchar"  primaryKey="true"/>
+    <column name="categoria_actividad_id" type="smallint"  primaryKey="true"/>
+    <column name="estatus" type="boolean" required="true"/>
+    <foreign-key foreignTable="usuarios" phpName="User" refPhpName="UserActivityCategory" onUpdate="cascade" onDelete="cascade">
+      <reference local="correo" foreign="correo"/>
+    </foreign-key>
+    <foreign-key foreignTable="categoria_actividad" phpName="ActivityCategory" refPhpName="UserActivityCategory" onUpdate="cascade" onDelete="cascade">
+      <reference local="categoria_actividad_id" foreign="categoria_actividad_id"/>
+    </foreign-key>
+  </table>
+
+  <table name="preguntas" phpName="Question">
+    <column name="pregunta_id" type="smallint" primaryKey="true" autoIncrement="true"/>
+    <column name="pregunta" type="varchar" required="true"/>
+    <column name="categoria_actividad_id" required="true" type="smallint"/>
+    <foreign-key foreignTable="categoria_actividad" phpName="ActivityCategory" refPhpName="Question" onUpdate="cascade" onDelete="cascade">
+      <reference local="categoria_actividad_id" foreign="categoria_actividad_id"/>
+    </foreign-key>
+    <unique name="pregunta_uni">
+      <unique-column name="pregunta" size="150"/>
+    </unique>
+  </table>
+
+  <table name="respuestas" phpName="Answer">
+    <column name="respuesta_id" type="smallint" primaryKey="true" autoIncrement="true"/>
+    <column name="respuesta" type="varchar" required="true"/>
+    <column name="pregunta_id" required="true" type="smallint"/>
+    <foreign-key foreignTable="preguntas" phpName="Question" refPhpName="Answer" onUpdate="cascade" onDelete="cascade">
+      <reference local="pregunta_id" foreign="pregunta_id"/>
+    </foreign-key>
+    <unique name="respuesta_uni">
+      <unique-column name="respuesta" size="100"/>
+    </unique>
+  </table>
+</database>

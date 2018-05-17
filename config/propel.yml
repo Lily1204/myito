@@ -1,0 +1,23 @@
+propel:
+    paths:
+        outputDir: ./target/
+    database:
+        connections:
+            myito:
+                adapter: pgsql
+                classname: Propel\Runtime\Connection\ConnectionWrapper
+                dsn: pgsql:host=localhost;port=5432;dbname=myito;user=postgres;password=1234    
+                user: postgres
+                password: 1234
+                settings: 
+                    charset: utf8
+                    queries:
+                        utf8: "SET NAMES 'UTF8'"
+    runtime:
+        defaultConnection: myito
+        connections:
+        - myito
+    generator:
+        defaultConnection: myito
+        connections:
+        - myito
